@@ -23,9 +23,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: install client
       run: npm install
-      directory: ${{ env.directory }}
-    - run: npm test
-      directory: ${{ env.directory }}
+      working-directory: ${{ env.directory }}
+    - name: test frontend
+      run: npm test
+      working-directory: ${{ env.directory }}
       env:
         CI: true
 
@@ -47,14 +48,15 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: install client
         run: npm install
-        directory: ${{ env.client-directory }}
+        working-directory: ${{ env.client-directory }}
       - name: build the client
         run: npm run-script build
-        directory: ${{ env.client-directory }}
+        working-directory: ${{ env.client-directory }}
       - name: install server
         run: npm install
-        directory: ${{ env.server-directory }}
-      - run: npm test
-        directory: ${{ env.server-directory }}
+        working-directory: ${{ env.server-directory }}
+      - name: test backend
+        run: npm test
+        working-directory: ${{ env.server-directory }}
         env:
           CI: true
