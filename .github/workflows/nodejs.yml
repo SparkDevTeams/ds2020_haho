@@ -23,7 +23,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: install client
       run: npm install
-      directory:${{ env.directory }}
+      directory: ${{ env.directory }}
     - run: npm test
       directory: ${{ env.directory }}
       env:
