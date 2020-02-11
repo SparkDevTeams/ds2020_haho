@@ -24,8 +24,7 @@ jobs:
     - name: install client
       run: npm install
       directory:${{ env.directory }}
-    - name: test frontend
-      run: npm test
+    - run: npm test
       directory: ${{ env.directory }}
       env:
         CI: true
@@ -55,8 +54,7 @@ jobs:
       - name: install server
         run: npm install
         directory: ${{ env.server-directory }}
-      - name: test backend
-        run: npm test
+      - run: npm test
         directory: ${{ env.server-directory }}
         env:
           CI: true
