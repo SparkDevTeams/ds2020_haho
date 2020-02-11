@@ -27,7 +27,7 @@
 on:
   push:
     branches:
-      - aws_deploy
+      - aws-deploy
 
 name: Deploy to Amazon ECS
 
