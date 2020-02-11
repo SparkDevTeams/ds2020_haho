@@ -1,24 +1,62 @@
 name: Node.js CI
 
-on: [push]
+on: 
+  push:
+    branch:
+      - master
 
 jobs:
-  build:
-
+  frontend_test:
     runs-on: ubuntu-latest
-
+    env:
+      directory: ./client
     strategy:
       matrix:
         node-version: [12.x]
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout the repo
+      uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install
-    - run: npm run build --if-present
-    - run: npm test
+    - name: install client
+      run: npm install
+      directory:${{ env.directory }}
+    - name: test frontend
+      run: npm test
+      directory: ${{ env.directory }}
       env:
         CI: true
+
+  backend_test:
+    runs-on: ubuntu-latest
+    env:
+      server-directory: ./server
+      client-directory: ./client
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: install client
+        run: npm install
+        directory: ${{ env.client-directory }}
+      - name: build the client
+        run: npm run-script build
+        directory: ${{ env.client-directory }}
+      - name: install server
+        run: npm install
+        directory: ${{ env.server-directory }}
+      - name: test backend
+        run: npm test
+        directory: ${{ env.server-directory }}
+        env:
+          CI: true
