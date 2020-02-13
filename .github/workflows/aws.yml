@@ -28,9 +28,6 @@ on:
   push:
     branches:
       - aws_deploy
-env:
-  server: ./server
-  client: ./client
 
 name: Deploy to Amazon ECS
 
@@ -38,6 +35,9 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    env:
+      server: ./server
+      client: ./client
 
     steps:
     - name: Checkout
@@ -74,7 +74,7 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
       directory: ${{ env.server }}
-      
+
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
