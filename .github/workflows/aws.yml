@@ -28,6 +28,9 @@ on:
   push:
     branches:
       - aws_deploy
+env:
+  server: ./server
+  client: ./client
 
 name: Deploy to Amazon ECS
 
@@ -50,20 +53,28 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
+    
+    - name: Build client and copy into server
+      run: |
+        npm install
+        npm run-script build
+      directory: ${{ env.client }}
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: my-ecr-repo
+        ECR_REPOSITORY: aws-deploy
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        # Build a docker container and push it to ECR so that it can
+        # Build a docker container and 
+        # push it to ECR so that it can
         # be deployed to ECS.
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-
+      directory: ${{ env.server }}
+      
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
