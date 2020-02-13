@@ -29,11 +29,11 @@ on:
     branches:
       - aws_deploy
 
-  env:
-    server: ./server
-    client: ./client
-
 name: Deploy to Amazon ECS
+
+env:
+  server: ./server
+  client: ./client
 
 jobs:
   deploy:
