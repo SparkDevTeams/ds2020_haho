@@ -58,7 +58,8 @@ jobs:
       run: |
         npm install
         npm run-script build
-      directory: ${{ env.client }}
+      with: 
+        directory: ${{ env.client }}
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
@@ -73,7 +74,8 @@ jobs:
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-      directory: ${{ env.server }}
+      with: 
+          directory: ${{ env.client }}
 
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
