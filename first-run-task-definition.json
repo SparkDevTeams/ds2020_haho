@@ -59,6 +59,19 @@
         "systemControls": null,
         "privileged": null,
         "name": "sample-app"
+      },
+      {
+        "name": "mongo",
+        "image": "mongo:latest",
+        "portMappings": [
+          {
+            "hostPort": 27017,
+            "containerPort": 27017
+          }
+        ],
+        "memory": "512",
+        "cpu": "256",
+        "essential": true
       }
     ],
     "placementConstraints": [],
@@ -118,5 +131,15 @@
     "status": "ACTIVE",
     "inferenceAccelerators": null,
     "proxyConfiguration": null,
-    "volumes": []
+    "volumes": [],
+    "environment" : [
+      {
+        "name": "DB_URL",
+        "value": "mongodb://localhost:27017/fortunate_prod_db"
+      },
+      {
+        "name": "PORT",
+        "value": "80"
+      }
+    ]
   }

@@ -31,14 +31,14 @@ on:
 
 name: Deploy to Amazon ECS
 
-env:
-  server: ./server
-  client: ./client
-
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    
+    env:
+      server: ./server
+      client: ./client
 
     steps:
     - name: Checkout
@@ -90,4 +90,4 @@ jobs:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
         service: sample-app-service
         cluster: default
-        #wait-for-service-stability: true
+        wait-for-service-stability: true
