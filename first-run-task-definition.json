@@ -29,7 +29,16 @@
         ],
         "linuxParameters": null,
         "cpu": 256,
-        "environment": [],
+        "environment": [
+          {
+            "name": "DB_URL",
+            "value": "mongodb://localhost:27017/fortunate_prod_db"
+          },
+          {
+            "name": "PORT",
+            "value": "80"
+          }
+        ],
         "resourceRequirements": null,
         "ulimits": null,
         "dnsServers": null,
@@ -131,15 +140,5 @@
     "status": "ACTIVE",
     "inferenceAccelerators": null,
     "proxyConfiguration": null,
-    "volumes": [],
-    "environment" : [
-      {
-        "name": "DB_URL",
-        "value": "mongodb://localhost:27017/fortunate_prod_db"
-      },
-      {
-        "name": "PORT",
-        "value": "80"
-      }
-    ]
+    "volumes": []
   }
