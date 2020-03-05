@@ -90,4 +90,4 @@ jobs:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
         service: my-container-service
         cluster: default
-        #wait-for-service-stability: true
+        wait-for-service-stability: true
